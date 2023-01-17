@@ -1,0 +1,2 @@
+21:25:16.989 [main] INFO  com.solvd.hospitalsystem.Runner - Connection established: com.mysql.cj.jdbc.result.ResultSetImpl@7f811d00
+21:25:16.992 [main] INFO  com.solvd.hospitalsystem.Runner - null
