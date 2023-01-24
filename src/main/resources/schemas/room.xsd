@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:element name="room" type="RoomType"/>
+  
+  <xs:complexType name="RoomType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="roomNumber" type="xs:string"/>
+      <xs:element name="roomType" type="xs:string"/>
+      <xs:element name="availability" type="xs:string"/>
+      <xs:element name="hospitalId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

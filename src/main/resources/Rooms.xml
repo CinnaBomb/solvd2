@@ -1,0 +1,7 @@
+<room>
+	<id>1</id>
+	<roomNumber>101</roomNumber>
+	<roomType>ICU</roomType>
+	<availability>Available</availability>
+	<hospitalId>1</hospitalId>
+</room>

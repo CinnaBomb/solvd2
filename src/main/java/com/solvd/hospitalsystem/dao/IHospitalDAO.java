@@ -1,9 +1,11 @@
 package com.solvd.hospitalsystem.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public interface IHospitalDAO<T> extends IBaseDAO<T>{
-    List<T> getAllHospitals() throws SQLException;
+import com.solvd.hospitalsystem.models.Hospital;
+
+public interface IHospitalDAO extends IBaseDAO<Hospital>{
+    List<Hospital> getAllHospitals() throws InterruptedException;
+    List<Hospital> getHospitalByParameter(String parameter, Object value) throws InterruptedException;
 }
 

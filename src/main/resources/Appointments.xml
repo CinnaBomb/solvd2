@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Appointment>
+	<id>1</id>
+	<appointmentDate>2022-01-01</appointmentDate>
+	<appointmentTime>2022-01-01T09:00:00</appointmentTime>
+	<treatmentNotes>Initial consultation</treatmentNotes>
+	<roomId>101</roomId>
+	<employeeId>1</employeeId>
+	<patientId>1</patientId>
+	<appointmentSymptoms>
+		<appointmentSymptom>
+			<symptomId>1</symptomId>
+			<symptomName>Headache</symptomName>
+		</appointmentSymptom>
+		<appointmentSymptom>
+			<symptomId>2</symptomId>
+			<symptomName>Nausea</symptomName>
+		</appointmentSymptom>
+	</appointmentSymptoms>
+	<appointmentDiagnoses>
+		<appointmentDiagnosis>
+			<diagnosisId>1</diagnosisId>
+			<diagnosisName>Migraine</diagnosisName>
+		</appointmentDiagnosis>
+	</appointmentDiagnoses>
+	<appointmentMedicine>
+		<medicineId>1</medicineId>
+		<medicineName>Ibuprofen</medicineName>
+	</appointmentMedicine>
+</Appointment>
+
+

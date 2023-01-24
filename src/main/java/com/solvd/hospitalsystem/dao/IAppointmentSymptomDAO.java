@@ -1,8 +1,10 @@
 package com.solvd.hospitalsystem.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public interface IAppointmentSymptomDAO<T> extends IBaseDAO<T>{
-    List<T> getAllPatientSymptoms() throws SQLException;
+import com.solvd.hospitalsystem.models.appointment.AppointmentSymptom;
+
+public interface IAppointmentSymptomDAO extends IBaseDAO<AppointmentSymptom> {
+	List<AppointmentSymptom> getAllAppointmentSymptoms() throws InterruptedException;
+	List<AppointmentSymptom> getAppointmentSymptomsByParameter(String parameter, Object value) throws InterruptedException;
 }

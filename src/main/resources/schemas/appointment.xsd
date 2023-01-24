@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="Appointment" type="AppointmentType"/>
+
+  <xs:complexType name="AppointmentType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="appointment_date" type="xs:date" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="appointment_time" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="treatment_notes" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="room_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="employee_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="patient_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,85 +1,176 @@
 package com.solvd.hospitalsystem.dao.mysql;
-import java.sql.*;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.solvd.hospitalsystem.dao.IPatientDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.solvd.hospitalsystem.dao.IRoomDAO;
-import com.solvd.hospitalsystem.Room;
+import com.solvd.hospitalsystem.models.Room;
 import com.solvd.hospitalsystem.utils.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
-public class RoomDAO<T> extends AbstractMySQLDAO<T> implements IRoomDAO<T>  {
+public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 
-	public RoomDAO(String url, String username, String password) throws SQLException {
-		super(url, username, password);
-	}
+	final Logger logger = LogManager.getLogger(RoomDAO.class.getName());
+
+	private final ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override
-	public T getEntityById(long id) throws SQLException, InterruptedException {
-		String query = "SELECT * FROM HospitalSystem.Room WHERE id = ?";
-		Connection conn = ConnectionPoolA.getInstance().getConnection();
-		try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+	public Room getEntityById(long id) throws InterruptedException {
+		Connection connection = null;
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room WHERE id = ?", 0);
 			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				return (T) new Room(resultSet.getLong("id"),
-						resultSet.getString("room_number"),
-						resultSet.getString("room_type"),
-						resultSet.getString("availability"),
-						resultSet.getLong("hospital_id"));
+
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				Room room = resultSetToRoom(rs);
+				return room;
 			}
-		}catch (SQLException e) {
-			logger.error(e);
-		}finally {
-			conn.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
 		}
 		return null;
 	}
 
 	@Override
-	public List<T> getAllRooms() throws SQLException {
-		String query = "SELECT * FROM HospitalSystem.Room";
-		List<T> rooms = new ArrayList<>();
-		try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				rooms.add((T) new Room(resultSet.getLong("id"),
-						resultSet.getString("room_number"),
-						resultSet.getString("room_type"),
-						resultSet.getString("availability"),
-						resultSet.getLong("hospital_id")));
+	public void updateEntity(Room entity) throws InterruptedException {
+		Connection connection = null;
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"UPDATE Room SET room_number = ?, room_type = ?, availability = ?, hospital_id = ? WHERE id = ?");
+			statement.setString(1, entity.getRoomNumber());
+			statement.setString(2, entity.getRoomType());
+			statement.setString(3, entity.getAvailability());
+			statement.setLong(4, entity.getHospitalId());
+			statement.setLong(5, entity.getId());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+	}
+
+	@Override
+	public Room createEntity(Room entity) throws InterruptedException {
+		Connection connection = null;
+		ResultSet rs = null;
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement(
+					"INSERT INTO Room (room_number, room_type, availability, hospital_id) VALUES (?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, entity.getRoomNumber());
+			statement.setString(2, entity.getRoomType());
+			statement.setString(3, entity.getAvailability());
+			statement.setLong(4, entity.getHospitalId());
+			statement.executeUpdate();
+
+			rs = statement.getGeneratedKeys();
+			if (rs.next()) {
+				long id = rs.getLong(1);
+				entity.setId(id);
+				return entity;
+			}
+			rs.close();
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void removeEntity(long id) throws InterruptedException {
+		Connection connection = null;
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement("DELETE FROM Room WHERE id = ?");
+			statement.setLong(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+	}
+
+	@Override
+	public List<Room> getAllRooms() throws InterruptedException {
+		Connection connection = null;
+		List<Room> rooms = new ArrayList<>();
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room", 0);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				rooms.add(resultSetToRoom(rs));
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
 			}
 		}
 		return rooms;
 	}
 
 	@Override
-	public void updateEntity(T entity) {
-		Room room = (Room) entity;
-		String query = "UPDATE HospitalSystem.Room SET room_number = ?, room_type = ?, availability = ?, hospital_id = ? WHERE id = ?";
-		try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-			statement.setString(1, room.getRoom_number());
-			statement.setString(2, room.getRoom_type());
-			statement.setString(3, room.getAvailability());
-			statement.setLong(4, room.getHospital_id());
-			statement.setLong(5, room.getId());
-			statement.executeUpdate();
+	public List<Room> getRoomsByByParameter(String parameter, Object value) throws InterruptedException {
+		Connection connection = null;
+		List<Room> rooms = new ArrayList<>();
+		try {
+			connection = pool.getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room WHERE " + parameter + " = ?",
+					0);
+			statement.setObject(1, value);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				rooms.add(resultSetToRoom(rs));
+			}
+			rs.close();
 		} catch (SQLException e) {
-			logger.error(e);
+			logger.info(e);
+		} finally {
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
 		}
+		return rooms;
 	}
 
-
-
-	@Override
-	public void removeEntity(long id) {
-		String query = "DELETE FROM HospitalSystem.Room WHERE id = ?";
-		try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-			statement.setLong(1, id);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error(e);
-		}
+	private Room resultSetToRoom(ResultSet result) throws SQLException {
+		long id = result.getLong("id");
+		String roomNumber = result.getString("room_number");
+		String roomType = result.getString("room_type");
+		String availability = result.getString("availability");
+		long hospitalId = result.getLong("hospital_id");
+		return new Room(id, roomNumber, roomType, availability, hospitalId);
 	}
+
 }

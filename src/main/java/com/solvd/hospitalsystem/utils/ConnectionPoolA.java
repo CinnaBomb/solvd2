@@ -1,23 +1,21 @@
 package com.solvd.hospitalsystem.utils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.Properties;
 import java.util.concurrent.*;
-import com.solvd.hospitalsystem.utils.Connection;
 
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.hospitalsystem.Runner;
+import com.solvd.hospitalsystem.services.HospitalService;
 
 public class ConnectionPoolA {
-	final static Logger logger = LogManager.getLogger(Runner.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
 
 	private static ConnectionPoolA instance;
 	private static final int MAX_CONNECTIONS = 10;
@@ -26,42 +24,42 @@ public class ConnectionPoolA {
 	private String username;
 	private String password;
 
-	private ConnectionPoolA() throws InterruptedException, SQLException {
+	public ConnectionPoolA() {
+		Properties prop = new Properties();
 		try {
-			Properties prop = new Properties();
-			prop.load(new FileInputStream("C:\\Users\\House Games\\eclipse-workspace\\hospitalsystem\\src\\main\\resources\\properties\\config.properties"));
-			url = prop.getProperty("db.url");
-			username = prop.getProperty("db.username");
-            password = prop.getProperty("db.password");
-            availableConnections = new LinkedBlockingQueue<Connection>();
-            for (int i = 0; i < MAX_CONNECTIONS; i++) {
-                 Connection connection = instance.getConnection();
-                availableConnections.add(connection);
-            }
-        } catch (IOException e) {
-            logger.error(e);
-        }
-		this.availableConnections = availableConnections;
-	}
-
-
-	public synchronized Connection getConnection() throws InterruptedException{
-		Connection connection = availableConnections.take();
-		return connection;
-	}
-
-	public void close() {
-		for (Connection connection : availableConnections) {
-			connection.close();
+			prop.load(new FileInputStream(
+					"C:\\Users\\House Games\\eclipse-workspace\\hospitalsystem\\src\\main\\resources\\properties\\config.properties"));
+		} catch (FileNotFoundException e) {
+			logger.info(e);
+		} catch (IOException e) {
+			logger.info(e);
+		}
+		this.url = prop.getProperty("db.url");
+		this.username = prop.getProperty("db.username");
+		this.password = prop.getProperty("db.password");
+		availableConnections = new LinkedBlockingQueue<>(MAX_CONNECTIONS);
+		for (int i = 0; i < MAX_CONNECTIONS; i++) {
+			try {
+				availableConnections.add((Connection) DriverManager.getConnection(url, username, password));
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 		}
 	}
-	
-    public static ConnectionPoolA getInstance() throws InterruptedException, SQLException {
-        if (instance == null) {
-            instance = new ConnectionPoolA();
-        }
-        return instance;
-    }
+
+	public static ConnectionPoolA getInstance() {
+		if (instance == null) {
+			instance = new ConnectionPoolA();
+		}
+		return instance;
+	}
+
+	public Connection getConnection() throws InterruptedException {
+		return availableConnections.take();
+	}
+
+	public void releaseConnection(Connection connection) throws InterruptedException {
+		availableConnections.put(connection);
+	}
 
 }
-

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patient>
+	<id>1</id>
+	<firstName>John</firstName>
+	<lastName>Doe</lastName>
+	<dateOfBirth>1990-01-01</dateOfBirth>
+	<phoneNumber>555-555-5555</phoneNumber>
+	<address>123 Main St.</address>
+	<patientAllergies>
+		<patientAllergy>
+			<id>1</id>
+			<allergyId>1</allergyId>
+			<allergyName>Peanut allergy</allergyName>
+		</patientAllergy>
+		<patientAllergy>
+			<id>2</id>
+			<allergyId>2</allergyId>
+			<allergyName>Lactose intolerance</allergyName>
+		</patientAllergy>
+	</patientAllergies>
+	<patientInsurances>
+		<patientInsurance>
+			<id>1</id>
+			<policyNumber>ABC123</policyNumber>
+			<insuranceId>1</insuranceId>
+			<insuranceProvider>Aetna</insuranceProvider>
+			<phoneNumber>555-555-5551</phoneNumber>
+			<coverageDetails>Basic coverage, 80/20 co-insurance
+			</coverageDetails>
+		</patientInsurance>
+		<patientInsurance>
+			<id>2</id>
+			<policyNumber>DEF456</policyNumber>
+			<insuranceId>2</insuranceId>
+			<insuranceProvider>UnitedHealthcare</insuranceProvider>
+			<phoneNumber>555-555-5553</phoneNumber>
+			<coverageDetails>Premium coverage, 100% preventive care coverage
+			</coverageDetails>
+		</patientInsurance>
+	</patientInsurances>
+</Patient>
+	

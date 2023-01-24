@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Hospital>
+    <id>1</id>
+    <hospitalName>Johns Hopkins Hospital</hospitalName>
+    <address>1200 East Lane. Los Angeles, CA 91556</address>
+    <rooms>
+        <room>
+            <id>1</id>
+            <roomNumber>101</roomNumber>
+            <roomType>ICU</roomType>
+            <availability>Available</availability>
+            <hospitalId>1</hospitalId>
+        </room>
+        <room>
+            <id>2</id>
+            <roomNumber>102</roomNumber>
+            <roomType>General</roomType>
+            <availability>Not Available</availability>
+            <hospitalId>1</hospitalId>
+        </room>
+    </rooms>
+</Hospital>
+
