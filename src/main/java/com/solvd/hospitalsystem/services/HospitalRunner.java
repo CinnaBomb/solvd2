@@ -34,8 +34,6 @@ public class HospitalRunner {
 	private static IAppointmentDAO appointmentDAO = new AppointmentDAO();
 	private static IAppointmentSymptomDAO appointmentSymptomDAO = new AppointmentSymptomDAO();
 	private static IAppointmentDiagnosisDAO appointmentDiagnosisDAO = new AppointmentDiagnosisDAO();
-	//private static IEmployeeDAO employeeDAO = new EmployeeDAO();
-	//private static IPatientDAO patientDAO = new PatientDAO();
 
 	public static void main(String[] args) throws InterruptedException {
 		List<Hospital> hospitals = getHospitalsByName("General Hospital");

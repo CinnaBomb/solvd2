@@ -17,12 +17,6 @@
 	</environments>
 	<mappers>
 		<mapper
-			resource="com/solvd/resources/mapper/AppointmentMapper.xml" />
-		<mapper
-			resource="com/solvd/resources/mapper/AppointmentSymptom.xml" />
-		<mapper
-			resource="com/solvd/resources/mapper/AppointmentDiagnosis.xml" />
-		<mapper
-			resource="com/solvd/resources/mapper/AppointmentMedicine.xml" />
+			resource="com/solvd/resources/mappers/AppointmentMapper.xml" />
 	</mappers>
 </configuration>
