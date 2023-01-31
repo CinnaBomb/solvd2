@@ -12,14 +12,14 @@ import java.util.concurrent.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.solvd.hospitalsystem.services.HospitalService;
+import com.solvd.hospitalsystem.services.HospitalRunner;
 
 public class ConnectionPoolA {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private static ConnectionPoolA instance;
 	private static final int MAX_CONNECTIONS = 10;
-	private LinkedBlockingQueue<Connection> availableConnections;
+	private LinkedBlockingQueue<java.sql.Connection> availableConnections;
 	private String url;
 	private String username;
 	private String password;
@@ -40,7 +40,7 @@ public class ConnectionPoolA {
 		availableConnections = new LinkedBlockingQueue<>(MAX_CONNECTIONS);
 		for (int i = 0; i < MAX_CONNECTIONS; i++) {
 			try {
-				availableConnections.add((Connection) DriverManager.getConnection(url, username, password));
+				availableConnections.add(DriverManager.getConnection(url, username, password));
 			} catch (SQLException e) {
 				logger.info(e);
 			}
@@ -54,11 +54,11 @@ public class ConnectionPoolA {
 		return instance;
 	}
 
-	public Connection getConnection() throws InterruptedException {
+	public java.sql.Connection getConnection() throws InterruptedException {
 		return availableConnections.take();
 	}
 
-	public void releaseConnection(Connection connection) throws InterruptedException {
+	public void releaseConnection(java.sql.Connection connection) throws InterruptedException {
 		availableConnections.put(connection);
 	}
 

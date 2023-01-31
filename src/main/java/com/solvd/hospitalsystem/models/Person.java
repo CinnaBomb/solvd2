@@ -1,8 +1,17 @@
 package com.solvd.hospitalsystem.models;
 
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 abstract public class Person extends Model{
 
+	@JsonProperty("firstName")
+	@XmlElement
     private String firstName;
+	
+	@JsonProperty("lastName")
+	@XmlElement
     private String lastName;
     
     public Person() {

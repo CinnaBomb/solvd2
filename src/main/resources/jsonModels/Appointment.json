@@ -1,0 +1,33 @@
+{
+	"Appointment": {
+		"id": 1,
+		"appointmentDate": "2022-01-01",
+		"appointmentTime": "2022-01-01T09:00:00",
+		"treatmentNotes": "Initial consultation",
+		"roomId": 101,
+		"employeeId": 1,
+		"patientId": 1,
+		"appointmentSymptoms": [
+			{
+				"symptomId": 1,
+				"symptomName": "Headache"
+			},
+			{
+				"symptomId": 2,
+				"symptomName": "Nausea"
+			}
+		],
+		"appointmentDiagnoses": [
+			{
+				"diagnosisId": 1,
+				"diagnosisName": "Migraine"
+			}
+		],
+		"appointmentMedicines": [
+			{
+				"medicineId": 1,
+				"medicineName": "Ibuprofen"
+			}
+		]
+	}
+}

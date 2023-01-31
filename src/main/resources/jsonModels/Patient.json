@@ -1,0 +1,44 @@
+{
+	"Patient": {
+		"id": "1",
+		"firstName": "John",
+		"lastName": "Doe",
+		"dateOfBirth": "1990-01-01",
+		"phoneNumber": "555-555-5555",
+		"address": "123 Main St.",
+		"patientAllergies": {
+			"patientAllergy": [
+				{
+					"id": "1",
+					"allergyId": "1",
+					"allergyName": "Peanut allergy"
+				},
+				{
+					"id": "2",
+					"allergyId": "2",
+					"allergyName": "Lactose intolerance"
+				}
+			]
+		},
+		"patientInsurances": {
+			"patientInsurance": [
+				{
+					"id": "1",
+					"policyNumber": "ABC123",
+					"insuranceId": "1",
+					"insuranceProvider": "Aetna",
+					"phoneNumber": "555-555-5551",
+					"coverageDetails": "Basic coverage, 80/20 co-insurance"
+				},
+				{
+					"id": "2",
+					"policyNumber": "DEF456",
+					"insuranceId": "2",
+					"insuranceProvider": "UnitedHealthcare",
+					"phoneNumber": "555-555-5553",
+					"coverageDetails": "Premium coverage, 100% preventive care coverage"
+				}
+			]
+		}
+	}
+}

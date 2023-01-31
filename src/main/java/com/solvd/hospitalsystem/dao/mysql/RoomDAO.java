@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.solvd.hospitalsystem.dao.IRoomDAO;
 import com.solvd.hospitalsystem.models.Room;
-import com.solvd.hospitalsystem.utils.Connection;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {

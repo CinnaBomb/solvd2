@@ -1,0 +1,25 @@
+{
+	"Hospital": {
+		"id": "1",
+		"hospitalName": "Johns Hopkins Hospital",
+		"address": "1200 East Lane. Los Angeles, CA 91556",
+		"rooms": {
+			"room": [
+				{
+					"id": "1",
+					"roomNumber": "101",
+					"roomType": "ICU",
+					"availability": "Available",
+					"hospitalId": "1"
+				},
+				{
+					"id": "2",
+					"roomNumber": "102",
+					"roomType": "General",
+					"availability": "Not Available",
+					"hospitalId": "1"
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patient>
+	<id>1</id>
+	<firstName>John</firstName>
+	<lastName>Doe</lastName>
+	<dateOfBirth>01-01-2000</dateOfBirth>
+	<phoneNumber>555-555-5555</phoneNumber>
+	<address>123 Main St.</address>
+	<patientInsurances>
+		<PatientInsurance>
+			<id>1</id>
+			<policyNumber>12345</policyNumber>
+			<insuranceProvider>Blue Cross</insuranceProvider>
+			<coverageDetails>Full coverage</coverageDetails>
+			<providerPhone>555-555-5555</providerPhone>
+			<patientId>1</patientId>
+		</PatientInsurance>
+		<PatientInsurance>
+			<id>2</id>
+			<policyNumber>67890</policyNumber>
+			<insuranceProvider>Aetna</insuranceProvider>
+			<coverageDetails>Partial coverage</coverageDetails>
+			<providerPhone>555-555-5555</providerPhone>
+			<patientId>1</patientId>
+		</PatientInsurance>
+	</patientInsurances>
+	<patientAllergies>
+		<PatientAllergy>
+			<id>1</id>
+			<allergyName>Penicillin</allergyName>
+			<allergyDetails>Severe reaction</allergyDetails>
+			<patientId>1</patientId>
+		</PatientAllergy>
+		<PatientAllergy>
+			<id>2</id>
+			<allergyName>Pollen</allergyName>
+			<allergyDetails>Mild reaction</allergyDetails>
+			<patientId>1</patientId>
+		</PatientAllergy>
+	</patientAllergies>
+</Patient>

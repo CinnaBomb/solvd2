@@ -12,12 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 import com.solvd.hospitalsystem.dao.IEmployeeDAO;
 import com.solvd.hospitalsystem.models.employee.Employee;
-import com.solvd.hospitalsystem.services.HospitalService;
-import com.solvd.hospitalsystem.utils.Connection;
+import com.solvd.hospitalsystem.services.HospitalRunner;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private final ConnectionPoolA pool = new ConnectionPoolA();
 
@@ -159,7 +159,7 @@ public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 
 
     @Override
-    public List<Employee> getEmployeeByParameter(String parameter, Object value) throws InterruptedException {
+    public List<Employee> getEmployeesByParameter(String parameter, Object value) throws InterruptedException {
         Connection connection = null;
         ResultSet rs = null;
         List<Employee> employees = new ArrayList<>();

@@ -1,0 +1,9 @@
+{
+	"Room": {
+		"id": "1",
+		"roomNumber": "101",
+		"roomType": "ICU",
+		"availability": "Available",
+		"hospitalId": "1"
+	}
+}

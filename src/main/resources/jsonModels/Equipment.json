@@ -1,0 +1,9 @@
+{
+	"Equipment": {
+		"id": "{id}",
+		"equipmentName": "{equipmentName}",
+		"equipmentType": "{equipmentType}",
+		"serialNumber": "{serialNumber}",
+		"roomId": "{roomId}"
+	}
+}

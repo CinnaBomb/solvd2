@@ -1,65 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="Patient" type="PatientType" />
-
-	<xs:complexType name="PatientType">
-		<xs:sequence>
-			<xs:element name="id" type="xs:long" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="firstName" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="lastName" type="xs:string" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="dateOfBirth" type="xs:date"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="phoneNumber" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="address" type="xs:string" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="patientAllergies"
-				type="patientAllergiesType" minOccurs="0" maxOccurs="1" />
-			<xs:element name="patientInsurances"
-				type="patientInsurancesType" minOccurs="0" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="patientAllergiesType">
-		<xs:sequence>
-			<xs:element name="patientAllergy"
-				type="patientAllergyType" minOccurs="1" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="patientAllergyType">
-		<xs:sequence>
-			<xs:element name="id" type="xs:long" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="allergyId" type="xs:long" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="allergyName" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="patientInsurancesType">
-		<xs:sequence>
-			<xs:element name="patientInsurance"
-				type="patientInsuranceType" minOccurs="1" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="patientInsuranceType">
-		<xs:sequence>
-			<xs:element name="id" type="xs:long" minOccurs="1"
-				maxOccurs="1" />
-			<xs:element name="policyNumber" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="insuranceId" type="xs:long"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="insuranceProvider" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="phoneNumber" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="coverageDetails" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-
+	<xs:element name="Patient">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:long" />
+				<xs:element name="firstName" type="xs:string" />
+				<xs:element name="lastName" type="xs:string" />
+				<xs:element name="dateOfBirth" type="xs:string" />
+				<xs:element name="phoneNumber" type="xs:string" />
+				<xs:element name="address" type="xs:string" />
+				<xs:element name="patientInsurances">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PatientInsurance"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="id" type="xs:long" />
+										<xs:element name="policyNumber" type="xs:string" />
+										<xs:element name="insuranceProvider"
+											type="xs:string" />
+										<xs:element name="coverageDetails" type="xs:string" />
+										<xs:element name="providerPhone" type="xs:string" />
+										<xs:element name="patientId" type="xs:long" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="patientAllergies">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PatientAllergy"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="id" type="xs:long" />
+										<xs:element name="allergyName" type="xs:string" />
+										<xs:element name="allergyDetails" type="xs:string" />
+										<xs:element name="patientId" type="xs:long" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
-      

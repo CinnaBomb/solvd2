@@ -6,6 +6,6 @@ import com.solvd.hospitalsystem.models.Hospital;
 
 public interface IHospitalDAO extends IBaseDAO<Hospital>{
     List<Hospital> getAllHospitals() throws InterruptedException;
-    List<Hospital> getHospitalByParameter(String parameter, Object value) throws InterruptedException;
+    List<Hospital> getHospitalsByParameter(String parameter, Object value) throws InterruptedException;
 }
 

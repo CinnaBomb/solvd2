@@ -12,12 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 import com.solvd.hospitalsystem.dao.IAppointmentSymptomDAO;
 import com.solvd.hospitalsystem.models.appointment.AppointmentSymptom;
-import com.solvd.hospitalsystem.services.HospitalService;
-import com.solvd.hospitalsystem.utils.Connection;
+import com.solvd.hospitalsystem.services.HospitalRunner;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implements IAppointmentSymptomDAO {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 	private final ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override

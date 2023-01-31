@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.solvd.hospitalsystem.dao.IAppointmentDiagnosisDAO;
 import com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis;
-import com.solvd.hospitalsystem.utils.Connection;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class AppointmentDiagnosisDAO extends MySQLDAO<AppointmentDiagnosis> implements IAppointmentDiagnosisDAO {

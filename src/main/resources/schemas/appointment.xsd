@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-  <xs:element name="Appointment" type="AppointmentType"/>
-
-  <xs:complexType name="AppointmentType">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="appointment_date" type="xs:date" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="appointment_time" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="treatment_notes" type="xs:string" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="room_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="employee_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="patient_id" type="xs:long" minOccurs="1" maxOccurs="1"/>
-    </xs:sequence>
-  </xs:complexType>
+	<xs:element name="Appointment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:integer" />
+				<xs:element name="appointmentDate" type="xs:date" />
+				<xs:element name="appointmentTime" type="xs:dateTime" />
+				<xs:element name="treatmentNotes" type="xs:string" />
+				<xs:element name="roomId" type="xs:integer" />
+				<xs:element name="employeeId" type="xs:integer" />
+				<xs:element name="patientId" type="xs:integer" />
+				<xs:element name="appointmentSymptoms">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="appointmentSymptom"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="symptomId" type="xs:integer" />
+										<xs:element name="symptomName" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="appointmentDiagnoses">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="appointmentDiagnosis"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="diagnosisId" type="xs:integer" />
+										<xs:element name="diagnosisName" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="appointmentMedicines">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="appointmentMedicine"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="medicineId" type="xs:integer" />
+										<xs:element name="medicineName" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

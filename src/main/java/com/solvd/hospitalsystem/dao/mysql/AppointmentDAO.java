@@ -17,12 +17,12 @@ import com.solvd.hospitalsystem.models.appointment.Appointment;
 import com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis;
 import com.solvd.hospitalsystem.models.appointment.AppointmentMedicine;
 import com.solvd.hospitalsystem.models.appointment.AppointmentSymptom;
-import com.solvd.hospitalsystem.services.HospitalService;
-import com.solvd.hospitalsystem.utils.Connection;
+import com.solvd.hospitalsystem.services.HospitalRunner;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmentDAO {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private final ConnectionPoolA pool = new ConnectionPoolA();
 

@@ -15,12 +15,12 @@ import com.solvd.hospitalsystem.dao.IPatientDAO;
 import com.solvd.hospitalsystem.models.patient.Patient;
 import com.solvd.hospitalsystem.models.patient.PatientAllergy;
 import com.solvd.hospitalsystem.models.patient.PatientInsurance;
-import com.solvd.hospitalsystem.services.HospitalService;
-import com.solvd.hospitalsystem.utils.Connection;
+import com.solvd.hospitalsystem.services.HospitalRunner;
+import java.sql.Connection;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class PatientDAO extends MySQLDAO<Patient> implements IPatientDAO {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private final ConnectionPoolA pool = new ConnectionPoolA();
 

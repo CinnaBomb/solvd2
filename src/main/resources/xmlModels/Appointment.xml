@@ -23,10 +23,12 @@
 			<diagnosisName>Migraine</diagnosisName>
 		</appointmentDiagnosis>
 	</appointmentDiagnoses>
-	<appointmentMedicine>
-		<medicineId>1</medicineId>
-		<medicineName>Ibuprofen</medicineName>
-	</appointmentMedicine>
+	<appointmentMedicines>
+		<appointmentMedicine>
+			<medicineId>1</medicineId>
+			<medicineName>Ibuprofen</medicineName>
+		</appointmentMedicine>
+	</appointmentMedicines>
 </Appointment>
 
 

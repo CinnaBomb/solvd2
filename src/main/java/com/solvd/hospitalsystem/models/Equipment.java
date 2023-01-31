@@ -1,18 +1,31 @@
 package com.solvd.hospitalsystem.models;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
+@JsonRootName("Equipment")
+@XmlRootElement(name = "Equipment")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Equipment extends Model{
 
+	@JsonProperty("equipmentName")
 	@XmlElement
     private String equipmentName;
 	
+	@JsonProperty("equipmentType")
 	@XmlElement
     private String equipmentType;
 	
+	@JsonProperty("serialNumber")
 	@XmlElement
     private String serialNumber;
 	
+	@JsonProperty("roomId")
 	@XmlElement
     private long roomId;
 

@@ -13,40 +13,73 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.solvd.hospitalsystem.DateAdapter;
 import com.solvd.hospitalsystem.TimestampAdapter;
 import com.solvd.hospitalsystem.ListAdapter;
+import com.solvd.hospitalsystem.ListSerializer;
+import com.solvd.hospitalsystem.ListDeserializer;
+import com.solvd.hospitalsystem.TimestampSerializer;
+import com.solvd.hospitalsystem.DateSerializer;
+import com.solvd.hospitalsystem.DateDeserializer;
+import com.solvd.hospitalsystem.TimestampDeserializer;
 import com.solvd.hospitalsystem.models.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonRootName("Appointment")
 @XmlRootElement(name = "Appointment")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Appointment extends Model {
 
+	@JsonSerialize(using = DateSerializer.class)
+	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonProperty("appointmentDate")
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	@XmlElement
 	private Date appointmentDate;
 
+	@JsonSerialize(using = TimestampSerializer.class)
+	@JsonDeserialize(using = TimestampDeserializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonProperty("appointmentTime")
 	@XmlJavaTypeAdapter(TimestampAdapter.class)
 	@XmlElement
 	private Timestamp appointmentTime;
 
+	@JsonProperty("treatmentNotes")
 	@XmlElement
 	private String treatmentNotes;
-	
+
+	@JsonProperty("roomId")
 	@XmlElement
 	private long roomId;
 	
+	@JsonProperty("employeeId")
 	@XmlElement
 	private long employeeId;
-	
+
+	@JsonProperty("patientId")
 	@XmlElement
 	private long patientId;
-
+	
+	@JsonSerialize(using = ListSerializer.class)
+	@JsonDeserialize(using = ListDeserializer.class)
+	@JsonProperty("appointmentSymptoms")
 	@XmlJavaTypeAdapter(ListAdapter.class)
 	@XmlElement
 	private List<AppointmentSymptom> appointmentSymptoms;
 
+	@JsonSerialize(using = ListSerializer.class)
+	@JsonDeserialize(using = ListDeserializer.class)
+	@JsonProperty("appointmentDiagnoses")
 	@XmlJavaTypeAdapter(ListAdapter.class)
 	@XmlElement
 	private List<AppointmentDiagnosis> appointmentDiagnoses;
 
+	@JsonSerialize(using = ListSerializer.class)
+	@JsonDeserialize(using = ListDeserializer.class)
+	@JsonProperty("appointmentMedicines")
 	@XmlJavaTypeAdapter(ListAdapter.class)
 	@XmlElement
 	private List<AppointmentMedicine> appointmentMedicines;

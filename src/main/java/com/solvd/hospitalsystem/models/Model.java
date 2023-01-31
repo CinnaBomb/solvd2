@@ -1,7 +1,13 @@
 package com.solvd.hospitalsystem.models;
 
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 abstract public class Model {
 
+	@JsonProperty("id")
+	@XmlElement
 	private long id;
 	
 	public Model() {}

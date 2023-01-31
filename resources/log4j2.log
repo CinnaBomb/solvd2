@@ -1,39 +1,6 @@
-19:27:29.363 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:27:50.389 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:28:11.452 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:28:32.497 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:28:53.549 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:29:14.586 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:29:35.636 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:29:56.683 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:30:17.733 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:30:38.787 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:30:59.822 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:31:20.867 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-19:31:41.906 [main] INFO  com.solvd.hospitalsystem.services.HospitalService - com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+19:45:46.914 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get hospitals by name
+19:45:47.083 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get rooms by hospital id
+19:45:47.245 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get appt by patient id
+19:45:47.410 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []
+19:45:47.575 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []
+19:45:47.741 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []

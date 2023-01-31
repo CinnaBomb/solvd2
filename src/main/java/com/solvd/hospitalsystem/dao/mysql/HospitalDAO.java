@@ -1,5 +1,6 @@
 package com.solvd.hospitalsystem.dao.mysql;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +14,11 @@ import org.apache.logging.log4j.Logger;
 import com.solvd.hospitalsystem.dao.IHospitalDAO;
 import com.solvd.hospitalsystem.models.Hospital;
 import com.solvd.hospitalsystem.models.Room;
-import com.solvd.hospitalsystem.services.HospitalService;
-import com.solvd.hospitalsystem.utils.Connection;
+import com.solvd.hospitalsystem.services.HospitalRunner;
 import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
-	final Logger logger = LogManager.getLogger(HospitalService.class.getName());
+	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private final ConnectionPoolA pool = new ConnectionPoolA();
 
@@ -140,7 +140,7 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	}
 
 	@Override
-	public List<Hospital> getHospitalByParameter(String parameter, Object value) throws InterruptedException {
+	public List<Hospital> getHospitalsByParameter(String parameter, Object value) throws InterruptedException {
 		Connection connection = null;
 		List<Hospital> hospitals = new ArrayList<>();
 		try {
