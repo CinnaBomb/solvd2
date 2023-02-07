@@ -1,6 +1,0 @@
-19:45:46.914 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get hospitals by name
-19:45:47.083 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get rooms by hospital id
-19:45:47.245 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - get appt by patient id
-19:45:47.410 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []
-19:45:47.575 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []
-19:45:47.741 [main] INFO  com.solvd.hospitalsystem.services.HospitalRunner - []

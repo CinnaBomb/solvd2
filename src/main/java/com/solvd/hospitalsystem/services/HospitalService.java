@@ -37,4 +37,8 @@ public class HospitalService {
 	public Hospital getHospitalById(long id) throws InterruptedException {
 		return hospitalDAO.getEntityById(id);
 	}
+
+	public List<Hospital> getHospitalsByName(String name) throws InterruptedException {
+		return hospitalDAO.getHospitalsByParameter("hospital_name", name);
+	}
 }

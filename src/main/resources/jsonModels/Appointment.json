@@ -1,5 +1,5 @@
 {
-	"Appointment": {
+	"appointment": {
 		"id": 1,
 		"appointmentDate": "2022-01-01",
 		"appointmentTime": "2022-01-01T09:00:00",

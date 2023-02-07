@@ -2,37 +2,38 @@ package com.solvd.hospitalsystem.services;
 
 import java.util.List;
 
+import com.solvd.hospitalsystem.dao.IEmployeeDAO;
 import com.solvd.hospitalsystem.dao.mysql.EmployeeDAO;
 import com.solvd.hospitalsystem.models.employee.Employee;
 
 public class EmployeeService {
-	private EmployeeDAO appointmentMedicineDAO;
+	private IEmployeeDAO employeeDAO;
 
 	public EmployeeService() {
-		this.appointmentMedicineDAO = new EmployeeDAO();
+		this.employeeDAO = new EmployeeDAO();
 	}
 
 	public List<Employee> getAllEmployees() throws InterruptedException {
-		return this.appointmentMedicineDAO.getAllEmployees();
+		return this.employeeDAO.getAllEmployees();
 	}
 
 	public List<Employee> getEmployeesByParameter(String parameter, Object value) throws InterruptedException {
-		return this.appointmentMedicineDAO.getEmployeesByParameter(parameter, value);
+		return this.employeeDAO.getEmployeesByParameter(parameter, value);
 	}
 
 	public Employee getEmployeeById(long id) throws InterruptedException {
-		return this.appointmentMedicineDAO.getEntityById(id);
+		return this.employeeDAO.getEntityById(id);
 	}
 
-	public void updateEmployee(Employee appointmentMedicine) throws InterruptedException {
-		this.appointmentMedicineDAO.updateEntity(appointmentMedicine);
+	public void updateEmployee(Employee employee) throws InterruptedException {
+		this.employeeDAO.updateEntity(employee);
 	}
 
-	public Employee createEmployee(Employee appointmentMedicine) throws InterruptedException {
-		return this.appointmentMedicineDAO.createEntity(appointmentMedicine);
+	public Employee createEmployee(Employee employee) throws InterruptedException {
+		return this.employeeDAO.createEntity(employee);
 	}
 
 	public void deleteEmployee(long id) throws InterruptedException {
-		this.appointmentMedicineDAO.removeEntity(id);
+		this.employeeDAO.removeEntity(id);
 	}
 }

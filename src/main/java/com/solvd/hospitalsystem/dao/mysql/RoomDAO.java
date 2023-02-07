@@ -19,26 +19,35 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 
 	final Logger logger = LogManager.getLogger(RoomDAO.class.getName());
 
-	private final ConnectionPoolA pool = new ConnectionPoolA();
+	private ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override
 	public Room getEntityById(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room WHERE id = ?", 0);
+			statement = connection.prepareStatement("SELECT * FROM Room WHERE id = ?", 0);
 			statement.setLong(1, id);
-
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			if (rs.next()) {
 				Room room = resultSetToRoom(rs);
 				return room;
 			}
-			rs.close();
-
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -49,9 +58,10 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 	@Override
 	public void updateEntity(Room entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"UPDATE Room SET room_number = ?, room_type = ?, availability = ?, hospital_id = ? WHERE id = ?");
 			statement.setString(1, entity.getRoomNumber());
 			statement.setString(2, entity.getRoomType());
@@ -62,6 +72,13 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -71,10 +88,11 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 	@Override
 	public Room createEntity(Room entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"INSERT INTO Room (room_number, room_type, availability, hospital_id) VALUES (?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getRoomNumber());
@@ -89,10 +107,19 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 				entity.setId(id);
 				return entity;
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -103,14 +130,22 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 	@Override
 	public void removeEntity(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM Room WHERE id = ?");
+			statement = connection.prepareStatement("DELETE FROM Room WHERE id = ?");
 			statement.setLong(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -120,19 +155,29 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 	@Override
 	public List<Room> getAllRooms() throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<Room> rooms = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room", 0);
-			ResultSet rs = statement.executeQuery();
+			statement = connection.prepareStatement("SELECT * FROM Room", 0);
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				rooms.add(resultSetToRoom(rs));
 			}
-			rs.close();
-
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -143,20 +188,30 @@ public class RoomDAO extends MySQLDAO<Room> implements IRoomDAO {
 	@Override
 	public List<Room> getRoomsByByParameter(String parameter, Object value) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<Room> rooms = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Room WHERE " + parameter + " = ?",
-					0);
+			statement = connection.prepareStatement("SELECT * FROM Room WHERE " + parameter + " = ?", 0);
 			statement.setObject(1, value);
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				rooms.add(resultSetToRoom(rs));
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}

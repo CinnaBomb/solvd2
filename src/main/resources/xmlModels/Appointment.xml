@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Appointment>
+<appointment>
 	<id>1</id>
 	<appointmentDate>2022-01-01</appointmentDate>
 	<appointmentTime>2022-01-01T09:00:00</appointmentTime>
@@ -29,6 +29,6 @@
 			<medicineName>Ibuprofen</medicineName>
 		</appointmentMedicine>
 	</appointmentMedicines>
-</Appointment>
+</appointment>
 
 

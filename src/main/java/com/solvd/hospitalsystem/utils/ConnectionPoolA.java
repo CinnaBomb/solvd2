@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import com.solvd.hospitalsystem.services.HospitalRunner;
 
 public class ConnectionPoolA {
-	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
+	final static Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
 	private static ConnectionPoolA instance;
 	private static final int MAX_CONNECTIONS = 10;

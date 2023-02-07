@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Hospital>
+<hospital>
     <id>1</id>
     <hospitalName>Johns Hopkins Hospital</hospitalName>
     <address>1200 East Lane. Los Angeles, CA 91556</address>
@@ -20,5 +20,5 @@
             <hospitalId>1</hospitalId>
         </room>
     </rooms>
-</Hospital>
+</hospital>
 

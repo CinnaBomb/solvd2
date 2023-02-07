@@ -36,4 +36,8 @@ public class RoomService {
 	public List<Room> getRoomsByParameter(String parameter, Object value) throws InterruptedException {
 		return roomDAO.getRoomsByByParameter(parameter, value);
 	}
+	
+	public List<Room> getRoomsByHospitalId(long hospitalId) throws InterruptedException {
+		return roomDAO.getRoomsByByParameter("hospital_id", hospitalId);
+	}
 }

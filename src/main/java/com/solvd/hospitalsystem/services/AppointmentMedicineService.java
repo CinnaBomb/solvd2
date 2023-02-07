@@ -2,11 +2,13 @@ package com.solvd.hospitalsystem.services;
 
 import java.util.List;
 
+import com.solvd.hospitalsystem.dao.IAppointmentMedicineDAO;
 import com.solvd.hospitalsystem.dao.mysql.AppointmentMedicineDAO;
+import com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis;
 import com.solvd.hospitalsystem.models.appointment.AppointmentMedicine;
 
 public class AppointmentMedicineService {
-	private final AppointmentMedicineDAO appointmentMedicineDAO;
+	private IAppointmentMedicineDAO appointmentMedicineDAO;
 
 	public AppointmentMedicineService() {
 		this.appointmentMedicineDAO = new AppointmentMedicineDAO();
@@ -36,5 +38,10 @@ public class AppointmentMedicineService {
 
 	public void deleteAppointmentMedicine(long id) throws InterruptedException {
 		this.appointmentMedicineDAO.removeEntity(id);
+	}
+
+	public List<AppointmentMedicine> getAppointmentMedicineByAppointmentId(long appointmentId)
+			throws InterruptedException {
+		return appointmentMedicineDAO.getAppointmentMedicinesByParameter("appointment_id", appointmentId);
 	}
 }

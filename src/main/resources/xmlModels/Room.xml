@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Room>
+<room>
 	<id>1</id>
 	<roomNumber>101</roomNumber>
 	<roomType>ICU</roomType>
 	<availability>Available</availability>
 	<hospitalId>1</hospitalId>
-</Room>
+</room>

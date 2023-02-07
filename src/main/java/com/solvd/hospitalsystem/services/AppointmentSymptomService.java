@@ -6,35 +6,41 @@ import com.solvd.hospitalsystem.dao.mysql.AppointmentSymptomDAO;
 import com.solvd.hospitalsystem.models.appointment.AppointmentSymptom;
 
 public class AppointmentSymptomService {
-	private final AppointmentSymptomDAO appointmentMedicineDAO;
+	private AppointmentSymptomDAO appointmentSymptomDAO;
 
 	public AppointmentSymptomService() {
-		this.appointmentMedicineDAO = new AppointmentSymptomDAO();
+		this.appointmentSymptomDAO = new AppointmentSymptomDAO();
+
 	}
 
 	public List<AppointmentSymptom> getAllAppointmentSymptoms() throws InterruptedException {
-		return this.appointmentMedicineDAO.getAllAppointmentSymptoms();
+		return this.appointmentSymptomDAO.getAllAppointmentSymptoms();
 	}
 
 	public List<AppointmentSymptom> getAppointmentSymptomsByParameter(String parameter, Object value)
 			throws InterruptedException {
-		return this.appointmentMedicineDAO.getAppointmentSymptomsByParameter(parameter, value);
+		return this.appointmentSymptomDAO.getAppointmentSymptomsByParameter(parameter, value);
 	}
 
 	public AppointmentSymptom getAppointmentSymptomById(long id) throws InterruptedException {
-		return this.appointmentMedicineDAO.getEntityById(id);
+		return this.appointmentSymptomDAO.getEntityById(id);
 	}
 
-	public void updateAppointmentSymptom(AppointmentSymptom appointmentMedicine) throws InterruptedException {
-		this.appointmentMedicineDAO.updateEntity(appointmentMedicine);
+	public void updateAppointmentSymptom(AppointmentSymptom appointmentSymptom) throws InterruptedException {
+		this.appointmentSymptomDAO.updateEntity(appointmentSymptom);
 	}
 
-	public AppointmentSymptom createAppointmentSymptom(AppointmentSymptom appointmentMedicine)
+	public AppointmentSymptom createAppointmentSymptom(AppointmentSymptom appointmentSymptom)
 			throws InterruptedException {
-		return this.appointmentMedicineDAO.createEntity(appointmentMedicine);
+		return this.appointmentSymptomDAO.createEntity(appointmentSymptom);
 	}
 
 	public void deleteAppointmentSymptom(long id) throws InterruptedException {
-		this.appointmentMedicineDAO.removeEntity(id);
+		this.appointmentSymptomDAO.removeEntity(id);
+	}
+
+	public List<AppointmentSymptom> getAppointmentSymptomsByAppointmentId(long appointmentId)
+			throws InterruptedException {
+		return appointmentSymptomDAO.getAppointmentSymptomsByParameter("appointment_id", appointmentId);
 	}
 }

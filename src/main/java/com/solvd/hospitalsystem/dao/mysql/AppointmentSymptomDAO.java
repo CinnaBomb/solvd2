@@ -18,25 +18,35 @@ import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 
 public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implements IAppointmentSymptomDAO {
 	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
-	private final ConnectionPoolA pool = new ConnectionPoolA();
+	private ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override
 	public AppointmentSymptom getEntityById(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM AppointmentSymptom WHERE id = ?",
-					0);
+			statement = connection.prepareStatement("SELECT * FROM AppointmentSymptom WHERE id = ?", 0);
 			statement.setLong(1, id);
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			if (rs.next()) {
 				AppointmentSymptom apptSymptom = resultSetToAppointmentSymptom(rs);
 				return apptSymptom;
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -47,9 +57,10 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 	@Override
 	public void updateEntity(AppointmentSymptom entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"UPDATE AppointmentSymptom SET symptomName = ?, severity = ?, appointmentId = ? WHERE id = ?");
 			statement.setString(1, entity.getSymptomName());
 			statement.setString(2, entity.getSeverity());
@@ -59,6 +70,13 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -68,10 +86,11 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 	@Override
 	public AppointmentSymptom createEntity(AppointmentSymptom entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"INSERT INTO AppointmentSymptom (symptomName, severity, appointmentId) VALUES (?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getSymptomName());
@@ -82,19 +101,21 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 			if (rs.next()) {
 				entity.setId(rs.getLong(1));
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
-			}
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					logger.info(e);
-				}
 			}
 		}
 		return entity;
@@ -103,14 +124,22 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 	@Override
 	public void removeEntity(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM AppointmentSymptom WHERE id = ?");
+			statement = connection.prepareStatement("DELETE FROM AppointmentSymptom WHERE id = ?");
 			statement.setLong(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -120,19 +149,30 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 	@Override
 	public List<AppointmentSymptom> getAllAppointmentSymptoms() throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<AppointmentSymptom> symptoms = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM AppointmentSymptom");
-			ResultSet rs = statement.executeQuery();
+			statement = connection.prepareStatement("SELECT * FROM AppointmentSymptom");
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				AppointmentSymptom symptom = resultSetToAppointmentSymptom(rs);
 				symptoms.add(symptom);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -141,27 +181,38 @@ public class AppointmentSymptomDAO extends MySQLDAO<AppointmentSymptom> implemen
 	}
 
 	@Override
-	public List<AppointmentSymptom> getAppointmentSymptomsByParameter(String parameter, Object value) throws InterruptedException {
+	public List<AppointmentSymptom> getAppointmentSymptomsByParameter(String parameter, Object value)
+			throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<AppointmentSymptom> symptoms = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM AppointmentSymptom WHERE " + parameter + " = ?");
+			statement = connection.prepareStatement("SELECT * FROM AppointmentSymptom WHERE " + parameter + " = ?");
 			if (value instanceof String) {
 				statement.setString(1, (String) value);
 			} else if (value instanceof Long) {
 				statement.setLong(1, (Long) value);
 			}
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				AppointmentSymptom symptom = resultSetToAppointmentSymptom(rs);
 				symptoms.add(symptom);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}

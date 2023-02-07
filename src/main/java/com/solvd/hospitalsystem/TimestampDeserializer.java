@@ -6,25 +6,30 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.solvd.hospitalsystem.dao.mysql.AppointmentDiagnosisDAO;
 
 public class TimestampDeserializer extends JsonDeserializer<Timestamp> {
-  
-  private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-  
-  @Override
-  public Timestamp deserialize(JsonParser parser, DeserializationContext context)
-      throws IOException, JsonProcessingException {
-    String date = parser.getText();
-    try {
-      Date parsedDate = dateFormat.parse(date);
-      return new Timestamp(parsedDate.getTime());
-    } catch (ParseException e) {
-      throw new RuntimeException(e);
-    }
-  }
-}
+	final Logger logger = LogManager.getLogger(AppointmentDiagnosisDAO.class.getName());
 
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	@Override
+	public Timestamp deserialize(JsonParser parser, DeserializationContext context)
+			throws IOException, JsonProcessingException {
+		String date = parser.getText();
+		try {
+			Date parsedDate = dateFormat.parse(date);
+			return new Timestamp(parsedDate.getTime());
+		} catch (ParseException e) {
+			logger.info(e);
+		}
+		return null;
+	}
+}

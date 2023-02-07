@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Patient>
+<patient>
 	<id>1</id>
 	<firstName>John</firstName>
 	<lastName>Doe</lastName>
@@ -38,4 +38,4 @@
 			<patientId>1</patientId>
 		</PatientAllergy>
 	</patientAllergies>
-</Patient>
+</patient>

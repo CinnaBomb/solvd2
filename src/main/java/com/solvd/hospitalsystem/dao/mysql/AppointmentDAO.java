@@ -24,23 +24,40 @@ import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmentDAO {
 	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
-	private final ConnectionPoolA pool = new ConnectionPoolA();
+	
+	public AppointmentDAO() {
+		super();
+	}
+
+	private ConnectionPoolA pool = new ConnectionPoolA();
 
 	public Appointment getEntityById(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Appointment WHERE id = ?", 0);
+			statement = connection.prepareStatement("SELECT * FROM Appointment WHERE id = ?", 0);
 			statement.setLong(1, id);
 
-			ResultSet result = statement.executeQuery();
-			if (result.next()) {
-				Appointment appt = resultSetToAppointment(result);
+			rs = statement.executeQuery();
+			if (rs.next()) {
+				Appointment appt = resultSetToAppointment(rs);
 				return appt;
 			}
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -50,9 +67,10 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 
 	public void updateEntity(Appointment entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"UPDATE Appointment SET appointment_date = ?, appointment_time = ?, treatment_notes = ?, room_id = ?, employee_id = ?, patient_id = ?, appointment_symptoms = ?, appointment_diagnoses = ?, appointment_medicines = ? WHERE id = ?");
 			statement.setDate(1, entity.getAppointmentDate());
 			statement.setTimestamp(2, entity.getAppointmentTime());
@@ -68,6 +86,13 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -76,10 +101,11 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 
 	public Appointment createEntity(Appointment entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"INSERT INTO Appointment (appointment_date, appointment_time, treatment_notes, room_id, employee_id, patient_id, appointment_symptoms, appointment_diagnoses, appointment_medicines) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setDate(1, entity.getAppointmentDate());
@@ -100,27 +126,49 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 						entity.getAppointmentSymptoms(), entity.getAppointmentDiagnoses(),
 						entity.getAppointmentMedicines());
 			}
-			rs.close();
 
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
+
 		}
 		return null;
 	}
 
 	public void removeEntity(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM Appointment WHERE id = ?");
+			statement = connection.prepareStatement("DELETE FROM Appointment WHERE id = ?");
 			statement.setLong(1, id);
 			statement.executeQuery();
 		} catch (SQLException e) {
 			logger.info(e);
+		}finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
 		}
 	}
 
@@ -128,18 +176,28 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 	public List<Appointment> getAllAppointments() throws InterruptedException {
 		List<Appointment> appointments = new ArrayList<>();
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Appointment");
+			statement = connection.prepareStatement("SELECT * FROM Appointment");
 			rs = statement.executeQuery();
 			while (rs.next()) {
 				appointments.add(resultSetToAppointment(rs));
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -151,10 +209,11 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 	public List<Appointment> getAppointmentsByParameter(String parameter, Object value) throws InterruptedException {
 		List<Appointment> appointments = new ArrayList<>();
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
+			statement = connection
 					.prepareStatement("SELECT * FROM Appointment WHERE " + parameter + " = ?");
 			if (value instanceof String) {
 				statement.setString(1, (String) value);
@@ -170,10 +229,19 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 				Appointment appointment = resultSetToAppointment(rs);
 				appointments.add(appointment);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -204,10 +272,11 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 	private List<AppointmentSymptom> getAppointmentSymptoms(long id) throws InterruptedException {
 		List<AppointmentSymptom> symptoms = new ArrayList<>();
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
+			statement = connection
 					.prepareStatement("SELECT * FROM AppointmentSymptom WHERE appointment_id = ?");
 			statement.setLong(1, id);
 			rs = statement.executeQuery();
@@ -218,10 +287,19 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 				long appointmentId = rs.getLong("appointment_id");
 				symptoms.add(new AppointmentSymptom(symptomId, symptomName, severity, appointmentId));
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -232,10 +310,11 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 	private List<AppointmentDiagnosis> getAppointmentDiagnoses(long id) throws InterruptedException {
 		List<AppointmentDiagnosis> appointmentDiagnoses = new ArrayList<>();
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
+			statement = connection
 					.prepareStatement("SELECT * FROM AppointmentDiagnosis WHERE appointment_id = ?");
 			statement.setLong(1, id);
 			rs = statement.executeQuery();
@@ -245,11 +324,20 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 				String details = rs.getString("details");
 				appointmentDiagnoses.add(new AppointmentDiagnosis(diagnosisId, diagnosisName, details, id));
 			}
-			rs.close();
 
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -260,10 +348,11 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 	private List<AppointmentMedicine> getAppointmentMedicines(long id) throws InterruptedException {
 		List<AppointmentMedicine> appointmentMedicines = new ArrayList<>();
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
+			statement = connection
 					.prepareStatement("SELECT * FROM Appointment_medicine WHERE appointment_id = ?");
 			statement.setLong(1, id);
 			rs = statement.executeQuery();
@@ -273,11 +362,19 @@ public class AppointmentDAO extends MySQLDAO<Appointment> implements IAppointmen
 				AppointmentMedicine appointmentMedicine = new AppointmentMedicine(medicineId, medicineName, id);
 				appointmentMedicines.add(appointmentMedicine);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
-
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}

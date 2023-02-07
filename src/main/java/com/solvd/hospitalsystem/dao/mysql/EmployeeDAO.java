@@ -19,25 +19,36 @@ import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
-	private final ConnectionPoolA pool = new ConnectionPoolA();
+	private ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override
 	public Employee getEntityById(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Employee WHERE id = ?", 0);
+			statement = connection.prepareStatement("SELECT * FROM Employee WHERE id = ?", 0);
 			statement.setLong(1, id);
 
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			if (rs.next()) {
 				Employee employee = resultSetToEmployee(rs);
 				return employee;
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -48,9 +59,10 @@ public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 	@Override
 	public void updateEntity(Employee entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"UPDATE Employee SET first_name = ?, last_name = ?, phone_number = ?, role = ?, hospital_id = ? WHERE id = ?");
 			statement.setString(1, entity.getFirstName());
 			statement.setString(2, entity.getLastName());
@@ -62,6 +74,13 @@ public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -71,10 +90,11 @@ public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 	@Override
 	public Employee createEntity(Employee entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"INSERT INTO Employee(first_name, last_name, phone_number, role, hospital_id) VALUES(?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getFirstName());
@@ -89,117 +109,128 @@ public class EmployeeDAO extends MySQLDAO<Employee> implements IEmployeeDAO {
 				long id = rs.getLong(1);
 				entity.setId(id);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
-			}
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					logger.info(e);
-				}
 			}
 		}
 		return entity;
 	}
 
-    @Override
-    public void removeEntity(long id) throws InterruptedException {
-        Connection connection = null;
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM Employee WHERE id = ?");
-            statement.setLong(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.info(e);
-        } finally {
-            if (connection != null) {
-                pool.releaseConnection(connection);
-            }
-        }
-    }
+	@Override
+	public void removeEntity(long id) throws InterruptedException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = pool.getConnection();
+			statement = connection.prepareStatement("DELETE FROM Employee WHERE id = ?");
+			statement.setLong(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+	}
 
+	@Override
+	public List<Employee> getAllEmployees() throws InterruptedException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		List<Employee> employees = new ArrayList<>();
+		try {
+			connection = pool.getConnection();
+			statement = connection.prepareStatement("SELECT * FROM Employee");
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				Employee emp = resultSetToEmployee(rs);
+				employees.add(emp);
+			}
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+		return employees;
+	}
 
-    @Override
-    public List<Employee> getAllEmployees() throws InterruptedException {
-        Connection connection = null;
-        ResultSet rs = null;
-        List<Employee> employees = new ArrayList<>();
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Employee");
-            rs = statement.executeQuery();
-            while (rs.next()) {
-                Employee emp = resultSetToEmployee(rs);
-                employees.add(emp);
-            }
-            rs.close();
-            
-        } catch (SQLException e) {
-            logger.info(e);
-        } finally {
-            if (connection != null) {
-                pool.releaseConnection(connection);
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.info(e);
-                }
-            }
-        }
-        return employees;
-    }
+	@Override
+	public List<Employee> getEmployeesByParameter(String parameter, Object value) throws InterruptedException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		List<Employee> employees = new ArrayList<>();
+		try {
+			connection = pool.getConnection();
+			statement = connection.prepareStatement("SELECT * FROM Employee WHERE " + parameter + " = ?");
+			statement.setObject(1, value);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				Employee emp = resultSetToEmployee(rs);
+				employees.add(emp);
+			}
+		} catch (SQLException e) {
+			logger.info(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
+			if (connection != null) {
+				pool.releaseConnection(connection);
+			}
+		}
+		return employees;
+	}
 
-
-    @Override
-    public List<Employee> getEmployeesByParameter(String parameter, Object value) throws InterruptedException {
-        Connection connection = null;
-        ResultSet rs = null;
-        List<Employee> employees = new ArrayList<>();
-
-        try {
-            connection = pool.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Employee WHERE " + parameter + " = ?");
-            statement.setObject(1, value);
-            rs = statement.executeQuery();
-            while (rs.next()) {
-                Employee emp = resultSetToEmployee(rs);
-                employees.add(emp);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            logger.info(e);
-        } finally {
-            if (connection != null) {
-                pool.releaseConnection(connection);
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.info(e);
-                }
-            }
-        }
-        return employees;
-    }
-
-    private Employee resultSetToEmployee(ResultSet rs) throws SQLException {
-        long id = rs.getLong("id");
-        String firstName = rs.getString("first_name");
-        String lastName = rs.getString("last_name");
-        String phoneNumber = rs.getString("phone_number");
-        String role = rs.getString("role");
-        long hospitalId = rs.getLong("hospital_id");
-        return new Employee(id, firstName, lastName, phoneNumber, role, hospitalId);
-    }
-
+	private Employee resultSetToEmployee(ResultSet rs) throws SQLException {
+		long id = rs.getLong("id");
+		String firstName = rs.getString("first_name");
+		String lastName = rs.getString("last_name");
+		String phoneNumber = rs.getString("phone_number");
+		String role = rs.getString("role");
+		long hospitalId = rs.getLong("hospital_id");
+		return new Employee(id, firstName, lastName, phoneNumber, role, hospitalId);
+	}
 
 }

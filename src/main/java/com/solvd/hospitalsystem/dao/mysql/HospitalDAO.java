@@ -20,25 +20,36 @@ import com.solvd.hospitalsystem.utils.ConnectionPoolA;
 public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	final Logger logger = LogManager.getLogger(HospitalRunner.class.getName());
 
-	private final ConnectionPoolA pool = new ConnectionPoolA();
+	private ConnectionPoolA pool = new ConnectionPoolA();
 
 	@Override
 	public Hospital getEntityById(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Hospital WHERE id = ?", 0);
+			statement = connection.prepareStatement("SELECT * FROM Hospital WHERE id = ?", 0);
 			statement.setLong(1, id);
 
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			if (rs.next()) {
 				Hospital hospital = resultSetToHospital(rs);
 				return hospital;
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -49,9 +60,10 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	@Override
 	public void updateEntity(Hospital entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
+			statement = connection
 					.prepareStatement("UPDATE Hospital SET hospital_name = ?, address = ?, rooms = ? WHERE id = ?");
 			statement.setString(1, entity.getHospitalName());
 			statement.setString(2, entity.getAddress());
@@ -61,6 +73,13 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -70,10 +89,11 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	@Override
 	public Hospital createEntity(Hospital entity) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement(
+			statement = connection.prepareStatement(
 					"INSERT INTO Hospital (hospital_name, address, rooms) VALUES (?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getHospitalName());
@@ -87,10 +107,19 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 				entity.setId(id);
 				return entity;
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -101,14 +130,22 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	@Override
 	public void removeEntity(long id) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM Hospital WHERE id = ?");
+			statement = connection.prepareStatement("DELETE FROM Hospital WHERE id = ?");
 			statement.setLong(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -118,20 +155,31 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	@Override
 	public List<Hospital> getAllHospitals() throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<Hospital> hospitals = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Hospital");
+			statement = connection.prepareStatement("SELECT * FROM Hospital");
 
-			ResultSet rs = statement.executeQuery();
+			rs = statement.executeQuery();
 			while (rs.next()) {
 				Hospital hospital = resultSetToHospital(rs);
 				hospitals.add(hospital);
 			}
-			rs.close();
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
@@ -142,21 +190,32 @@ public class HospitalDAO extends MySQLDAO<Hospital> implements IHospitalDAO {
 	@Override
 	public List<Hospital> getHospitalsByParameter(String parameter, Object value) throws InterruptedException {
 		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		List<Hospital> hospitals = new ArrayList<>();
 		try {
 			connection = pool.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM Hospital WHERE " + parameter + " = ?");
+			statement = connection.prepareStatement("SELECT * FROM Hospital WHERE " + parameter + " = ?");
 			statement.setObject(1, value);
 
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				Hospital hospital = resultSetToHospital(result);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				Hospital hospital = resultSetToHospital(rs);
 				hospitals.add(hospital);
 			}
 		} catch (SQLException e) {
 			logger.info(e);
 		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				logger.info(e);
+			}
 			if (connection != null) {
 				pool.releaseConnection(connection);
 			}
