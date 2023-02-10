@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.solvd.hospitalsystem.dao.IAppointmentDiagnosisDAO">
+
+	<resultMap id="appointmentDiagnosisResultMap"
+		type="com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis">
+		<id property="id" column="id" />
+		<result property="diagnosisName" column="diagnosis_name" />
+		<result property="details" column="details" />
+		<result property="appointmentId" column="appointment_id" />
+	</resultMap>
+
+	<select id="getEntityById"
+		resultMap="appointmentDiagnosisResultMap">
+		SELECT * FROM appointment_diagnoses WHERE id = #{id}
+	</select>
+
+	<select id="getAppointmentDiagnosesByAppointmentId"
+		resultMap="appointmentDiagnosisResultMap">
+		SELECT * FROM appointment_diagnoses
+		WHERE appointment_id =
+		#{appointmentId}
+	</select>
+
+	<select id="getAllEntities"
+		resultMap="appointmentDiagnosisResultMap">
+		SELECT * FROM appointment_diagnoses
+	</select>
+
+	<insert id="createEntity">
+		INSERT INTO appointment_diagnoses (diagnosis_name,
+		details, appointment_id)
+		VALUES (#{diagnosisName}, #{details},
+		#{appointmentId})
+	</insert>
+
+	<update id="updateEntity">
+		UPDATE appointment_diagnoses
+		SET diagnosis_name =
+		#{diagnosisName}, details = #{details}, appointment_id =
+		#{appointmentId}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="removeEntity">
+		DELETE FROM appointment_diagnoses WHERE id = #{id}
+	</delete>
+
+</mapper>

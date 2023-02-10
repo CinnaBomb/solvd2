@@ -18,5 +18,7 @@
 	<mappers>
 		<mapper
 			resource="com/solvd/resources/mappers/AppointmentMapper.xml" />
+					<mapper
+			resource="com/solvd/resources/mappers/RoomMapper.xml" />
 	</mappers>
 </configuration>

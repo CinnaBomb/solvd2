@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.hospitalsystem.dao.IAppointmentSymptomDAO">
+
+	<resultMap id="appointmentSymptomResultMap"
+		type="AppointmentSymptom">
+		<id column="id" property="id" />
+		<result column="symptom_name" property="symptomName" />
+		<result column="severity" property="severity" />
+		<result column="appointment_id" property="appointmentId" />
+	</resultMap>
+
+	<select id="getEntityById"
+		resultMap="appointmentSymptomResultMap">
+		SELECT * FROM appointment_symptoms WHERE id = #{id}
+	</select>
+
+	<select id="getAllEntities"
+		resultMap="appointmentSymptomResultMap">
+		SELECT * FROM appointment_symptoms
+	</select>
+
+	<select id="getAppointmentSymptomsByAppointmentId"
+		resultMap="appointmentSymptomResultMap">
+		SELECT * FROM appointment_symptoms
+		WHERE appointment_id = #{appointmentId}
+	</select>
+
+	<insert id="createEntity">
+		INSERT INTO appointment_symptoms(symptom_name, severity,
+		appointment_id)
+		VALUES(#{symptomName}, #{severity}, #{appointmentId})
+	</insert>
+
+	<update id="updateEntity">
+		UPDATE appointment_symptoms
+		SET symptom_name =
+		#{symptomName},
+		severity = #{severity}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="removeEntity">
+		DELETE FROM
+		appointment_symptoms WHERE id = #{id}
+	</delete>
+</mapper>

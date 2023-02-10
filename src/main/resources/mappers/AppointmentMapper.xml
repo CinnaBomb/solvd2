@@ -1,22 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.solvd.hospitalsystem.models.appointment.AppointmentMapper">
-
-	<resultMap id="AppointmentResult"
+<mapper namespace="com.solvd.hospitalsystem.dao.IAppointmentDAO">
+	<resultMap id="AppointmentResultMap"
 		type="com.solvd.hospitalsystem.models.appointment.Appointment">
-		<id property="id" column="id" />
-		<result property="appointmentDate" column="appointment_date" />
-		<result property="appointmentTime" column="appointment_time" />
-		<result property="treatmentNotes" column="treatment_notes" />
-		<result property="roomId" column="room_id" />
-		<result property="employeeId" column="employee_id" />
-		<result property="patientId" column="patient_id" />
+		<id column="id" property="id" javaType="long" />
+		<result column="appointment_date" property="appointmentDate" />
+		<result column="appointment_time" property="appointmentTime" />
+		<result column="treatment_notes" property="treatmentNotes" />
+		<result column="room_id" property="roomId" javaType="long" />
+		<result column="employee_id" property="employeeId"
+			javaType="long" />
+		<result column="patient_id" property="patientId"
+			javaType="long" />
 		<collection property="appointmentSymptoms"
 			ofType="com.solvd.hospitalsystem.models.appointment.AppointmentSymptom"
 			column="id"
-			select="com.solvd.hospitalsystem.models.appointment.AppointmentSymptomMapper.findByAppointmentId" />
+			select="com.solvd.hospitalsystem.models.appointment.AppointmentSymptomMapper.getAppointmentSymptomsByAppointmentId" />
 		<collection property="appointmentDiagnoses"
 			ofType="com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis"
 			column="id"
@@ -26,36 +27,40 @@
 			column="id"
 			select="com.solvd.hospitalsystem.models.appointment.AppointmentMedicineMapper.findByAppointmentId" />
 	</resultMap>
-	
-	<select id="findById" resultMap="AppointmentResult"
-		parameterType="long">
-		SELECT *
-		FROM appointment
+
+	<select id="getEntityById" resultMap="AppointmentResultMap">
+		SELECT * FROM appointments
 		WHERE id = #{id}
 	</select>
-
-	<insert id="insert"
-		parameterType="com.solvd.hospitalsystem.models.appointment.Appointment">
-		INSERT INTO appointment (appointment_date, appointment_time,
+	<select id="getAllAppointments" resultMap="AppointmentResultMap">
+		SELECT * FROM
+		appointments
+	</select>
+	<select id="getAppointmentsByParameter"
+		resultMap="AppointmentResultMap">
+		SELECT * FROM appointments WHERE ${parameter} = #{value}
+	</select>
+	<insert id="createEntity">
+		INSERT INTO appointments (appointment_date,
+		appointment_time,
 		treatment_notes, room_id, employee_id, patient_id)
 		VALUES (#{appointmentDate}, #{appointmentTime}, #{treatmentNotes},
 		#{roomId}, #{employeeId}, #{patientId})
 	</insert>
-
-	<update id="update"
-		parameterType="com.solvd.hospitalsystem.models.appointment.Appointment">
-		UPDATE appointment
-		SET appointment_date = #{appointmentDate},
-		appointment_time = #{appointmentTime},
-		treatment_notes = #{treatmentNotes},
-		room_id = #{roomId},
-		employee_id = #{employee},
-		patient_id = #{patientId}
+	<update id="updateEntity">
+		UPDATE appointments
+		SET appointment_date =
+		#{appointmentDate}, appointment_time =
+		#{appointmentTime},
+		treatment_notes = #{treatmentNotes}, room_id =
+		#{roomId}, employee_id =
+		#{employeeId}, patient_id = #{patientId}
 		WHERE id = #{id}
 	</update>
-
-	<delete id="delete" parameterType="long">
-		DELETE FROM appointment
-		WHERE id = #{id}
+	<delete id="removeEntity">
+		DELETE FROM appointments WHERE id = #{id}
 	</delete>
 </mapper>
+
+
+	

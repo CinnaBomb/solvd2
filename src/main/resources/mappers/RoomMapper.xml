@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.hospitalsystem.dao.IRoomDAO">
+
+	<resultMap id="roomResultMap" type="Room">
+		<id column="id" property="id" />
+		<result column="room_number" property="roomNumber" />
+		<result column="room_type" property="roomType" />
+		<result column="availability" property="availability" />
+		<result column="hospital_id" property="hospitalId" />
+	</resultMap>
+
+	<select id="getAllRooms" resultMap="roomResultMap">
+		SELECT * FROM room
+	</select>
+
+	<select id="getRoomsByByParameter" resultMap="roomResultMap">
+		SELECT * FROM room
+		WHERE ${parameter} = #{value}
+	</select>
+
+	<select id="getEntityById" resultMap="roomResultMap">
+		SELECT * FROM room
+		WHERE id = #{id}
+	</select>
+
+	<update id="updateEntity">
+		UPDATE room
+		SET roomNumber = #{roomNumber}, roomType = #{roomType}, availability =
+		#{availability}, hospitalId = #{hospitalId}
+		WHERE id = #{id}
+	</update>
+
+	<insert id="createEntity">
+		INSERT INTO room (roomNumber, roomType, availability, hospitalId)
+		VALUES (#{roomNumber}, #{roomType}, #{availability}, #{hospitalId})
+	</insert>
+
+	<delete id="removeEntity">
+		DELETE FROM room
+		WHERE id = #{id}
+	</delete>
+
+</mapper>
