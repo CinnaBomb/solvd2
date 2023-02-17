@@ -2,6 +2,7 @@ package com.solvd.hospitalsystem.dao.mybatis;
 
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.solvd.hospitalsystem.dao.IAppointmentDAO;
 import com.solvd.hospitalsystem.models.appointment.Appointment;

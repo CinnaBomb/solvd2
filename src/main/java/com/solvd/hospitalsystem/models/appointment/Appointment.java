@@ -87,6 +87,17 @@ public class Appointment extends Model {
 	public Appointment() {
 		super();
 	}
+	
+	public Appointment(long id, Date appointmentDate, Timestamp appointmentTime, String treatmentNotes, long roomId,
+			long employeeId, long patientId) {
+		super(id);
+		this.appointmentDate = appointmentDate;
+		this.appointmentTime = appointmentTime;
+		this.treatmentNotes = treatmentNotes;
+		this.roomId = roomId;
+		this.employeeId = employeeId;
+		this.patientId = patientId;
+	}
 
 	public Appointment(long id, Date appointmentDate, Timestamp appointmentTime, String treatmentNotes, long roomId,
 			long employeeId, long patientId, List<AppointmentSymptom> appointmentSymptoms,

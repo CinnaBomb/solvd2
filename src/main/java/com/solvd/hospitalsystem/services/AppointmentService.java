@@ -2,21 +2,21 @@ package com.solvd.hospitalsystem.services;
 
 import java.util.List;
 
-import com.solvd.hospitalsystem.dao.IAppointmentDAO;
-import com.solvd.hospitalsystem.dao.mysql.AppointmentDAO;
-import com.solvd.hospitalsystem.models.appointment.Appointment;
-import com.solvd.hospitalsystem.models.appointment.AppointmentDiagnosis;
-import com.solvd.hospitalsystem.models.appointment.AppointmentMedicine;
-import com.solvd.hospitalsystem.models.appointment.AppointmentSymptom;
 
+import com.solvd.hospitalsystem.dao.IAppointmentDAO;
+import com.solvd.hospitalsystem.dao.mybatis.AppointmentDAO;
+import com.solvd.hospitalsystem.models.appointment.Appointment;
 public class AppointmentService {
     private IAppointmentDAO appointmentDAO;
-
+    
     public AppointmentService() {
         this.appointmentDAO = new AppointmentDAO();
     }
+    public AppointmentService(AppointmentDAO appointmentDAO2) {
+        this.appointmentDAO = appointmentDAO;
 
-    public List<Appointment> getAllAppointments() throws InterruptedException {
+	}
+	public List<Appointment> getAllAppointments() throws InterruptedException {
         return this.appointmentDAO.getAllAppointments();
     }
 
@@ -25,6 +25,9 @@ public class AppointmentService {
     }
 
     public Appointment getAppointmentById(long id) throws InterruptedException {
+    	
+    	return this.appointmentDAO.getEntityById(id);
+    	/*
     	Appointment appointment = this.appointmentDAO.getEntityById(id);
     	AppointmentSymptomService appointmentSymptomService = new AppointmentSymptomService();
     	AppointmentDiagnosisService appointmentDiagnosisService = new AppointmentDiagnosisService();
@@ -37,6 +40,7 @@ public class AppointmentService {
     	return new Appointment(appointment.getId(), appointment.getAppointmentDate(), appointment.getAppointmentTime(), 
     		appointment.getTreatmentNotes(), appointment.getRoomId(), appointment.getEmployeeId(), appointment.getPatientId(), 
     		appointmentSymptoms, appointmentDiagnoses, appointmentMedicines);
+    	 */
     }
 
     public void updateAppointment(Appointment appointment) throws InterruptedException {
@@ -68,6 +72,4 @@ public class AppointmentService {
 	}
 
 
-	
-	
 }

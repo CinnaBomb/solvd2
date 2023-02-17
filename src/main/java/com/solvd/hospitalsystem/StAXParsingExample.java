@@ -29,7 +29,7 @@ public class StAXParsingExample {
 	public void parseXML() {
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		try {
-			XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream("Appointment.xml"));
+			XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream("C:\\Users\\House Games\\eclipse-workspace\\hospitalsystem\\src\\main\\resources\\xmlModels\\Appointment.xml"));
 			while (reader.hasNext()) {
 				int event = reader.next();
 				switch (event) {	
